@@ -1,3 +1,4 @@
+'use strict';
 function createMyObject() {
     return {
         foo: 'bar',
@@ -241,3 +242,175 @@ const studentData = [
   testIt();
   
 ////////////////////////////////////////////////////////////////
+// you can pass in `scratchData` to test out `findByid`
+// your function
+const scratchData = [
+  { id: 22, foo: 'bar' },
+  { id: 28, foo: 'bizz' },
+  { id: 19, foo: 'bazz' },
+];
+
+function findById(items, idNum) {
+  // for (let i=0; i<items.length; i++){
+  //   let newObject = items[i];
+  //   if(newObject.id === idNum){
+  //     return newObject;
+  //   }
+  // }
+  return items.find(function(element){
+    return element.id === idNum;
+  })
+}
+
+//
+
+function testIt() {
+  const testData = [
+    { id: 1, foo: 'bar' },
+    { id: 2, foo: 'bizz' },
+    { id: 3, bang: 'boo' },
+  ];
+  const result = findById(testData, 3);
+  if (!(result && result !== null && typeof result === 'object')) {
+    console.error('`findById` must return an object');
+    return;
+  }
+  if (result.id !== 3) {
+    console.error(
+      'Asked for item with id of `3` but got back one with id of ' + result.id
+    );
+    return;
+  }
+  if (result.bang !== 'boo') {
+    console.error(
+      'Expected all key/value pairs from target object to be returned'
+    );
+    return;
+  }
+  console.log('SUCCESS: `findByid` is working');
+}
+
+testIt();
+
+//////////////////////////////////////////
+// running the function with `objectA` and `expectedKeys`
+// should return `true`
+const objectA = {
+  id: 2,
+  name: 'Jane Doe',
+  age: 34,
+  city: 'Chicago',
+};
+
+// running the function with `objectB` and `expectedKeys`
+// should return `false`
+const objectB = {
+  id: 3,
+  age: 33,
+  city: 'Peoria',
+};
+
+const expectedKeys = ['id', 'name', 'age', 'city'];
+
+function validateKeys(object, expectedKeys) {
+  const keyArr = Object.keys(object);
+  if (expectedKeys.length !== keyArr.length){
+    return false;
+  }
+  for (let key in object){
+    if (!expectedKeys.find(elem => key === elem)){
+      return false;
+    }
+  }
+  return true;
+}
+
+/* From here down, you are not expected to 
+   understand.... for now :)  
+   
+   
+   Nothing to see here!
+   
+*/
+
+function testIt() {
+  const objectA = {
+    id: 2,
+    name: 'Jane Doe',
+    age: 34,
+    city: 'Chicago',
+  };
+
+  const objectB = {
+    id: 3,
+    age: 33,
+    city: 'Peoria',
+  };
+
+  const objectC = {
+    id: 9,
+    name: 'Billy Bear',
+    age: 62,
+    city: 'Milwaukee',
+    status: 'paused',
+  };
+
+  const objectD = {
+    foo: 2,
+    bar: 'Jane Doe',
+    bizz: 34,
+    bang: 'Chicago',
+  };
+
+  const expectedKeys = ['id', 'name', 'age', 'city'];
+
+  if (typeof validateKeys(objectA, expectedKeys) !== 'boolean') {
+    console.error('FAILURE: validateKeys should return a boolean value');
+    return;
+  }
+
+  if (!validateKeys(objectA, expectedKeys)) {
+    console.error(
+      `FAILURE: running validateKeys with the following object and keys
+      should return true but returned false:
+      Object: ${JSON.stringify(objectA)}
+      Expected keys: ${expectedKeys}`
+    );
+    return;
+  }
+
+  if (validateKeys(objectB, expectedKeys)) {
+    console.error(
+      `FAILURE: running validateKeys with the following object and keys
+      should return false but returned true:
+      Object: ${JSON.stringify(objectB)}
+      Expected keys: ${expectedKeys}`
+    );
+    return;
+  }
+
+  if (validateKeys(objectC, expectedKeys)) {
+    console.error(
+      `FAILURE: running validateKeys with the following object and keys
+      should return false but returned true:
+      Object: ${JSON.stringify(objectC)}
+      Expected keys: ${expectedKeys}`
+    );
+    return;
+  }
+
+  if (validateKeys(objectD, expectedKeys)) {
+    console.error(
+      `FAILURE: running validateKeys with the following object and keys
+      should return false but returned true:
+      Object: ${JSON.stringify(objectD)}
+      Expected keys: ${expectedKeys}`
+    );
+    return;
+  }
+
+  console.log('SUCCESS: validateKeys is working');
+}
+
+testIt();
+
